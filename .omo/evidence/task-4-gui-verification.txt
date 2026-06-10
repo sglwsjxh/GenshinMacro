@@ -1,0 +1,4 @@
+Task 4 — GUI Verification
+- py_compile: PASSED
+- import sanity: PASSED (no GUI auto-launch)
+- Code review: 83 lines, complete GUI with start/stop, admin elevation, Esc/close cleanup

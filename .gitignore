@@ -1,0 +1,23 @@
+# python
+__pycache__/
+*.pyc
+venv/
+
+# build
+build/
+dist/
+
+# ide
+.idea/
+.vscode/
+
+# tmp
+tmp/
+temp/
+tests/
+*.tmp
+*.bak
+
+# logs
+logs/
+*.log

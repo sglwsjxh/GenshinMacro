@@ -1,3 +1,0 @@
-Task 5 — Documentation
-- README.md created with install/run docs, x/x2 mapping, admin note
-- All commands match actual behavior

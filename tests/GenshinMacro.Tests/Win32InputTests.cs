@@ -1,4 +1,5 @@
 using GenshinMacro.Input;
+using GenshinMacro.Interop;
 using Xunit;
 
 namespace GenshinMacro.Tests;
@@ -6,55 +7,55 @@ namespace GenshinMacro.Tests;
 public class Win32InputTests
 {
     [Fact]
-    public void InputStruct_Size_ShouldBeCorrect()
+    public void InputStruct_Layout_ShouldBeSequential()
     {
-        // On 64-bit: INPUT = 4 (type) + 4 (padding) + 28 (MOUSEINPUT) = 40 bytes
-        // On 32-bit: smaller
-        // Just verify it compiles and has the expected layout
-        var input = new Interop.INPUT
+        var input = new INPUT
         {
-            type = Interop.InputType.Mouse,
-            union = default
+            type = InputType.Mouse,
+            union = new MouseKeyboardHardwareUnion
+            {
+                mi = new MOUSEINPUT { dx = 100, dy = 200, dwFlags = (uint)MouseEventFlags.MOUSEEVENTF_MOVE }
+            }
         };
-        Assert.Equal(Interop.InputType.Mouse, input.type);
+        Assert.Equal(InputType.Mouse, input.type);
+        Assert.Equal(100, input.union.mi.dx);
+        Assert.Equal(200, input.union.mi.dy);
     }
 
     [Fact]
-    public void FakeInputSimulator_Should_ImplementInterface()
+    public void FakeInputSimulator_Should_TrackCalls()
     {
-        IInputSimulator simulator = new FakeInputSimulator();
-        Assert.NotNull(simulator);
+        var fake = new FakeInputSimulator();
+        Assert.True(fake.MoveMouseBy(50, 0));
+        Assert.True(fake.RightClick());
+        Assert.Contains(fake.CallLog, c => c.Contains("MoveMouseBy(50,0)"));
+        Assert.Contains(fake.CallLog, c => c.Contains("RightClick"));
     }
 
     [Fact]
-    public void FakeButtonStateProvider_Should_ImplementInterface()
+    public void FakeButtonStateProvider_Should_ReturnConfiguredValues()
     {
-        IButtonStateProvider provider = new FakeButtonStateProvider();
-        Assert.NotNull(provider);
+        var fake = new FakeButtonStateProvider();
+        fake.X1Pressed = true;
+        fake.X2Pressed = false;
+        Assert.True(fake.IsXButton1Pressed());
+        Assert.False(fake.IsXButton2Pressed());
     }
 
     [Fact]
-    public void Win32InputSimulator_SendInput_Fails_Gracefully_When_Not_Elevated()
+    public void Win32InputSimulator_ShouldNotCrash_WhenCalled()
     {
-        // SendInput will fail if not running as admin and targeting high-integrity processes.
-        // At minimum it should return false without crashing.
         var sim = new Win32InputSimulator();
-        // This might succeed or fail depending on environment - just verify no crash
+        // These call real SendInput - just ensure no exception is thrown
         var result = sim.MoveMouseBy(0, 0);
-        // We don't assert success/failure since it depends on elevation state
-        // The important thing is no exception is thrown
-        Assert.True(true);
+        Assert.IsType<bool>(result);
     }
 
     [Fact]
-    public void ButtonStateProvider_Should_Poll_Without_Crashing()
+    public void Win32ButtonStateProvider_ShouldNotCrash_WhenPolled()
     {
         var provider = new Win32ButtonStateProvider();
-        // These calls should not crash even if no X buttons are present
-        var x1 = provider.IsXButton1Pressed();
-        var x2 = provider.IsXButton2Pressed();
-        // Can't assert true/false since it depends on actual hardware state
-        // Just verify no exception
-        Assert.True(true);
+        Assert.IsType<bool>(provider.IsXButton1Pressed());
+        Assert.IsType<bool>(provider.IsXButton2Pressed());
     }
 }

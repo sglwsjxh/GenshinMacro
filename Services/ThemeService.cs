@@ -24,7 +24,15 @@ public class ThemeService
     public void Initialize()
     {
         var theme = LoadTheme();
-        ApplyTheme(theme);
+
+        // App.xaml already sets Light as the default theme.
+        // Re-applying Light→Light triggers a WPF-UI resource rebuild
+        // that overrides our custom Theme.xaml brushes, rendering
+        // the entire window black. Only apply when switching to Dark.
+        if (theme == ApplicationTheme.Dark)
+            ApplyTheme(theme);
+        else
+            CurrentTheme = ApplicationTheme.Light;
     }
 
     /// <summary>

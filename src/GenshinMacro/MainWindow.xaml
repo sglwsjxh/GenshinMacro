@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,8,0,12">
@@ -187,7 +188,38 @@
             </StackPanel>
         </Border>
 
-        <Button Grid.Row="2"
+        <!-- Error Banner -->
+        <Border Grid.Row="2" CornerRadius="8" Padding="12,8" Margin="0,8,0,0"
+                BorderBrush="#FF9800" BorderThickness="1">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#FFF3E0"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowError}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding ErrorMessage}"
+                           TextWrapping="Wrap" FontSize="12"
+                           Foreground="#E65100" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="✕"
+                        Command="{Binding DismissErrorCommand}"
+                        Background="Transparent" BorderThickness="0"
+                        Foreground="#E65100" FontSize="14"
+                        Padding="4,0" Margin="8,0,0,0"
+                        Cursor="Hand" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <Button Grid.Row="3"
                 Command="{Binding ToggleCommand}"
                 FontSize="18"
                 FontWeight="SemiBold"

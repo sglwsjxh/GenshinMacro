@@ -30,7 +30,7 @@ public class RotationWorker : MacroWorkerBase
                         if (_cts.IsCancellationRequested) return;
                         if (!inputSim.MoveMouseBy(PixelsPerSubStep, 0))
                         {
-                            System.Diagnostics.Debug.WriteLine("RotationWorker: SendInput failed, aborting.");
+                            ReportError("旋转宏：输入模拟失败，请检查是否以管理员权限运行");
                             return;
                         }
                         Thread.Sleep(SubStepDelayMs);

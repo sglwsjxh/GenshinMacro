@@ -4,11 +4,14 @@ namespace GenshinMacro.MacroEngine;
 
 public abstract class MacroWorkerBase
 {
+    public event Action<string>? OnError;
+
     protected readonly CancellationTokenSource _cts = new();
     protected Thread? _thread;
     protected bool _running;
 
     public bool IsRunning => _running;
+    public string? LastError { get; protected set; }
 
     public void Start(IButtonStateProvider buttonState, IInputSimulator inputSim)
     {
@@ -20,6 +23,12 @@ public abstract class MacroWorkerBase
             Name = GetType().Name
         };
         _thread.Start();
+    }
+
+    protected void ReportError(string message)
+    {
+        LastError = message;
+        OnError?.Invoke(message);
     }
 
     public void Stop()

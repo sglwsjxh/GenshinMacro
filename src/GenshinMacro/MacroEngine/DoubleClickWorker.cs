@@ -20,7 +20,8 @@ public class DoubleClickWorker : MacroWorkerBase
             {
                 lock (InputLock.SyncRoot)
                 {
-                    ExecuteDoubleClickSequence(inputSim);
+                    if (!ExecuteDoubleClickSequence(inputSim))
+                        return; // exit worker on failure
                 }
             }
             try
@@ -32,26 +33,34 @@ public class DoubleClickWorker : MacroWorkerBase
         }
     }
 
-    private void ExecuteDoubleClickSequence(IInputSimulator inputSim)
+    private bool ExecuteDoubleClickSequence(IInputSimulator inputSim)
     {
-        if (_cts.IsCancellationRequested) return;
+        if (_cts.IsCancellationRequested) return false;
 
         // Cycle 1
-        if (!inputSim.LeftButtonDown()) return;
+        if (!inputSim.LeftButtonDown()) return Fail("LeftButtonDown");
         Thread.Sleep(LeftHoldMs);
-        if (!inputSim.RightButtonDown()) return;
-        if (!inputSim.RightButtonUp()) return;
+        if (!inputSim.RightButtonDown()) return Fail("RightButtonDown");
+        if (!inputSim.RightButtonUp()) return Fail("RightButtonUp");
         Thread.Sleep(PostRightClickMs);
-        if (!inputSim.LeftButtonUp()) return;
+        if (!inputSim.LeftButtonUp()) return Fail("LeftButtonUp");
         Thread.Sleep(PostRightClickMs);
 
         // Cycle 2
-        if (!inputSim.LeftButtonDown()) return;
+        if (!inputSim.LeftButtonDown()) return Fail("LeftButtonDown");
         Thread.Sleep(LeftHoldMs);
-        if (!inputSim.RightButtonDown()) return;
-        if (!inputSim.RightButtonUp()) return;
+        if (!inputSim.RightButtonDown()) return Fail("RightButtonDown");
+        if (!inputSim.RightButtonUp()) return Fail("RightButtonUp");
         Thread.Sleep(PostRightClickMs);
-        if (!inputSim.LeftButtonUp()) return;
+        if (!inputSim.LeftButtonUp()) return Fail("LeftButtonUp");
         Thread.Sleep(InterCycleMs);
+
+        return true;
+    }
+
+    private bool Fail(string action)
+    {
+        ReportError($"双击宏：{action} 模拟失败，请检查是否以管理员权限运行");
+        return false;
     }
 }

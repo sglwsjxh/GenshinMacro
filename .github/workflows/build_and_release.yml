@@ -31,7 +31,7 @@ jobs:
 
       - name: Publish
         run: >
-          dotnet publish src/GenshinMacro/GenshinMacro.csproj
+          dotnet publish GenshinMacro.csproj
           -c Release
           -r win-x64
           --self-contained true

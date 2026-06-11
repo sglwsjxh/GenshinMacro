@@ -49,7 +49,10 @@ public class ThemeService
         CurrentTheme = theme;
 
         if (theme == ApplicationTheme.Dark)
-            ApplyPalette(ApplicationTheme.Dark);
+        {
+            ApplicationThemeManager.Apply(theme, WindowBackdropType.None);
+            ApplyPalette(theme);
+        }
     }
 
     public void ApplyTheme(ApplicationTheme theme)

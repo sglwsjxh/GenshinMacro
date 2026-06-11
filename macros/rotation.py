@@ -1,22 +1,17 @@
 import pyautogui
 import pydirectinput
-import keyboard.mouse
 
 from macros.base import MacroWorker, input_lock
-
 
 SCREEN_WIDTH = pyautogui.size()[0]
 ROTATION_SPEED = 0.02
 
-
 def _default_action():
     pydirectinput.move(SCREEN_WIDTH, 0, duration=ROTATION_SPEED, relative=True)
 
-
 def _default_button_reader():
-    import keyboard.mouse
-    return keyboard.mouse.is_pressed(keyboard.mouse.X)
-
+    import mouse
+    return mouse.is_pressed('x')
 
 class RotationWorker(MacroWorker):
     def __init__(self):

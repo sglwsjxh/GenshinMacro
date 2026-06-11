@@ -1,9 +1,8 @@
 import time
-import keyboard
+import mouse
 import pyautogui
 
 from macros.base import MacroWorker, input_lock
-
 
 class DoubleClickWorker(MacroWorker):
     def _run(self, button_reader, action_callable):
@@ -13,13 +12,10 @@ class DoubleClickWorker(MacroWorker):
                     action_callable()
             self.stop_event.wait(0.05)
 
-
 def _default_button_reader():
-    return keyboard.mouse.is_pressed(keyboard.mouse.X2)
-
+    return mouse.is_pressed('x2')
 
 def _default_action():
-    try:
         pyautogui.mouseDown()
         time.sleep(0.1)
         pyautogui.click(button='right')
@@ -33,9 +29,6 @@ def _default_action():
         time.sleep(0.03)
         pyautogui.mouseUp()
         time.sleep(0.08)
-    except Exception:
-        pass
-
 
 def main():
     worker = DoubleClickWorker()
@@ -48,7 +41,6 @@ def main():
     except KeyboardInterrupt:
         print("\nStopping...")
         worker.stop()
-
 
 if __name__ == "__main__":
     main()

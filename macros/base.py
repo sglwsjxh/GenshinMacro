@@ -7,20 +7,17 @@ pyautogui.FAILSAFE = False
 
 input_lock = threading.Lock()
 
-
 def is_admin():
     try:
         return bool(ctypes.windll.shell32.IsUserAnAdmin())
     except Exception:
         return False
 
-
 def elevate():
     ctypes.windll.shell32.ShellExecuteW(
         None, "runas", sys.executable, " ".join(sys.argv), None, 1
     )
     sys.exit()
-
 
 class MacroWorker:
     def __init__(self):

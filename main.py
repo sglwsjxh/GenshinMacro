@@ -1,4 +1,3 @@
-import sys
 import tkinter as tk
 
 from macros.base import is_admin, elevate
@@ -8,7 +7,6 @@ from macros.rotation import _default_action as rotation_action
 from macros.double_click import DoubleClickWorker
 from macros.double_click import _default_button_reader as double_click_btn_reader
 from macros.double_click import _default_action as double_click_action
-
 
 class App(tk.Tk):
     def __init__(self):
@@ -21,7 +19,6 @@ class App(tk.Tk):
         except Exception:
             pass
         self.protocol("WM_DELETE_WINDOW", self.on_close)
-        self.bind("<Escape>", lambda e: self.on_close())
 
         self.rotation_worker = RotationWorker()
         self.double_click_worker = DoubleClickWorker()
@@ -34,23 +31,23 @@ class App(tk.Tk):
 
     def show_start_interface(self):
         self.clear_widgets()
-        tk.Label(self, text="通用宏工具", font=("黑体", 16)).place(
-            relx=0.5, rely=0.25, anchor=tk.CENTER
+        tk.Label(self, text="通用宏工具", font=("黑体", 25)).place(
+            relx=0.5, rely=0.4, anchor=tk.CENTER
         )
         tk.Button(
             self, text="启动", width=12, height=2, bg="lightgreen",
             font=("黑体", 14), command=self.start
-        ).place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+        ).place(relx=0.5, rely=0.72, anchor=tk.CENTER)
 
     def show_stop_interface(self):
         self.clear_widgets()
         tk.Label(self, text="运行中", font=("黑体", 16), fg="green").place(
             relx=0.5, rely=0.15, anchor=tk.CENTER
         )
-        tk.Label(self, text="X  →  旋转视角", font=("黑体", 12)).place(
+        tk.Label(self, text="侧键1 → 自动旋转", font=("黑体", 12)).place(
             relx=0.5, rely=0.35, anchor=tk.CENTER
         )
-        tk.Label(self, text="X2 →  双击右键", font=("黑体", 12)).place(
+        tk.Label(self, text="侧键2 → 双玛头宏", font=("黑体", 12)).place(
             relx=0.5, rely=0.48, anchor=tk.CENTER
         )
         tk.Button(
@@ -72,7 +69,6 @@ class App(tk.Tk):
         self.rotation_worker.stop()
         self.double_click_worker.stop()
         self.destroy()
-
 
 if __name__ == "__main__":
     if not is_admin():

@@ -1,6 +1,7 @@
 global using System.Windows;
 global using System.Diagnostics;
 global using System.Security.Principal;
+global using GenshinMacro.Services;
 
 namespace GenshinMacro;
 
@@ -30,6 +31,8 @@ public partial class App : Application
         }
 
         base.OnStartup(e);
+
+        new ThemeService().Initialize();
     }
 
     private static bool IsAdministrator()

@@ -10,7 +10,7 @@
         Height="480"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Background="{StaticResource BackgroundBrush}"
+        Background="{DynamicResource BackgroundBrush}"
         FontFamily="{StaticResource FontFamily}">
 
     <Window.DataContext>
@@ -29,23 +29,23 @@
             <TextBlock Text="Genshin Macro"
                        FontSize="28"
                        FontWeight="Bold"
-                       Foreground="{StaticResource TextPrimaryBrush}"
+                       Foreground="{DynamicResource TextPrimaryBrush}"
                        HorizontalAlignment="Center"/>
              <TextBlock Text="控制面板"
                        FontSize="14"
-                       Foreground="{StaticResource TextSecondaryBrush}"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
                        HorizontalAlignment="Center"
                        Margin="0,4,0,0"/>
         </StackPanel>
 
         <Border Grid.Row="1"
-                Background="{StaticResource CardBrush}"
+                Background="{DynamicResource CardBrush}"
                 CornerRadius="12"
                 Padding="20"
-                BorderBrush="{StaticResource BorderBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect Color="#18000000" BlurRadius="16" ShadowDepth="2" Opacity="0.4"/>
+                <DropShadowEffect Color="{DynamicResource ShadowColor}" BlurRadius="16" ShadowDepth="2" Opacity="0.4"/>
             </Border.Effect>
 
             <StackPanel>
@@ -55,13 +55,13 @@
                         Margin="0,0,0,2">
                     <Border.Style>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#F3F4F6"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource StatusStoppedBgBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsRunning}" Value="True">
-                                    <Setter Property="Background" Value="#EAF7ED"/>
-                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource StatusRunningBgBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource SuccessBrush}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -71,10 +71,10 @@
                         <Ellipse Width="8" Height="8" Margin="0,0,8,0">
                             <Ellipse.Style>
                                 <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="Fill" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsRunning}" Value="True">
-                                            <Setter Property="Fill" Value="{StaticResource SuccessBrush}"/>
+                                            <Setter Property="Fill" Value="{DynamicResource SuccessBrush}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -87,10 +87,10 @@
                                    VerticalAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsRunning}" Value="True">
-                                            <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -100,43 +100,43 @@
                 </Border>
 
                 <Rectangle Height="1"
-                           Fill="{StaticResource BorderBrush}"
+                           Fill="{DynamicResource BorderBrush}"
                            Margin="0,0,0,12"/>
 
-                <Border Background="#F0FDF9"
+                <Border Background="{DynamicResource SideKey1BackgroundBrush}"
                         CornerRadius="10"
                         Padding="14,12"
                         Margin="0,0,0,10"
-                        BorderBrush="#D7EFE7"
+                        BorderBrush="{DynamicResource SideKey1BorderBrush}"
                         BorderThickness="1">
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock Text="侧键1 — 龙王自动旋转"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
                                    HorizontalAlignment="Center"/>
                         <TextBlock Text="按住 X1 侧键龙王自动旋转"
                                    FontSize="12"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                    HorizontalAlignment="Center"
                                    Margin="0,2,0,0"/>
                     </StackPanel>
                 </Border>
 
-                <Border Background="#FFF5F5"
+                <Border Background="{DynamicResource SideKey2BackgroundBrush}"
                         CornerRadius="10"
                         Padding="14,12"
-                        BorderBrush="#F1D6D6"
+                        BorderBrush="{DynamicResource SideKey2BorderBrush}"
                         BorderThickness="1">
                     <StackPanel HorizontalAlignment="Center">
                         <TextBlock Text="侧键2 — 双玛头宏"
                                    FontSize="14"
                                    FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
                                    HorizontalAlignment="Center"/>
                         <TextBlock Text="按住 X2 侧键执行双玛头"
                                    FontSize="12"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                    HorizontalAlignment="Center"
                                    Margin="0,2,0,0"/>
                     </StackPanel>
@@ -146,10 +146,10 @@
 
         <!-- Error Banner -->
         <Border Grid.Row="2" CornerRadius="8" Padding="12,8" Margin="0,8,0,0"
-                BorderBrush="#FF9800" BorderThickness="1">
+                BorderBrush="{DynamicResource ErrorBannerBorderBrush}" BorderThickness="1">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="#FFF3E0"/>
+                    <Setter Property="Background" Value="{DynamicResource ErrorBannerBgBrush}"/>
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ShowError}" Value="True">
@@ -165,11 +165,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding ErrorMessage}"
                            TextWrapping="Wrap" FontSize="12"
-                           Foreground="#E65100" VerticalAlignment="Center"/>
+                           Foreground="{DynamicResource ErrorBannerTextBrush}" VerticalAlignment="Center"/>
                 <Button Grid.Column="1" Content="✕"
                         Command="{Binding DismissErrorCommand}"
                         Background="Transparent" BorderThickness="0"
-                        Foreground="#E65100" FontSize="14"
+                        Foreground="{DynamicResource ErrorBannerTextBrush}" FontSize="14"
                         Padding="4,0" Margin="8,0,0,0"
                         Cursor="Hand" VerticalAlignment="Center"/>
             </Grid>
@@ -186,11 +186,11 @@
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
                     <Setter Property="Content" Value="启 动"/>
-                    <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsRunning}" Value="True">
                             <Setter Property="Content" Value="停 止"/>
-                            <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
+                            <Setter Property="Background" Value="{DynamicResource ErrorBrush}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

@@ -7,12 +7,11 @@
         mc:Ignorable="d"
         Title="Genshin Macro"
         Width="360"
-        Height="420"
+        Height="480"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="{StaticResource BackgroundBrush}"
-        FontFamily="{StaticResource FontFamily}"
-        KeyDown="OnKeyDown">
+        FontFamily="{StaticResource FontFamily}">
 
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -100,12 +99,6 @@
                     </StackPanel>
                 </Border>
 
-                <TextBlock Text="启动后按住侧键即可触发宏，Esc 关闭窗口"
-                           FontSize="12"
-                           Foreground="{StaticResource TextSecondaryBrush}"
-                           HorizontalAlignment="Center"
-                           Margin="0,8,0,12"/>
-
                 <Rectangle Height="1"
                            Fill="{StaticResource BorderBrush}"
                            Margin="0,0,0,12"/>
@@ -123,18 +116,16 @@
                         </Grid.ColumnDefinitions>
 
                         <Border Width="38"
-                                Height="38"
-                                Background="{StaticResource AccentBrush}"
-                                CornerRadius="10"
-                                Grid.Column="0"
-                                Margin="0,0,14,0">
-                            <TextBlock Text="⟳"
-                                       Foreground="White"
-                                       FontSize="18"
-                                       FontWeight="Bold"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
+                                 Height="38"
+                                 Background="{StaticResource AccentBrush}"
+                                 CornerRadius="10"
+                                 Grid.Column="0"
+                                 Margin="0,0,14,0">
+                             <Viewbox Width="20" Height="20">
+                                 <Path Data="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                                       Fill="White" Stretch="Uniform"/>
+                             </Viewbox>
+                         </Border>
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="侧键1 — 持续旋转视角"
@@ -160,25 +151,12 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Width="38"
-                                Height="38"
-                                Background="{StaticResource ErrorBrush}"
-                                CornerRadius="10"
-                                Grid.Column="0"
-                                Margin="0,0,14,0">
-                            <TextBlock Text="⚡"
-                                       Foreground="White"
-                                       FontSize="18"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="侧键2 — 双键连击"
-                                       FontSize="14"
-                                       FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}"/>
-                            <TextBlock Text="按住 X2 侧键执行连击宏"
+                             <TextBlock Text="侧键2 — 双键连击"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource TextPrimaryBrush}"/>
+                             <TextBlock Text="按住 X2 侧键执行连击宏"
                                        FontSize="12"
                                        Foreground="{StaticResource TextSecondaryBrush}"
                                        Margin="0,2,0,0"/>

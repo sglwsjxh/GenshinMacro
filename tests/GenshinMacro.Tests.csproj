@@ -12,6 +12,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GenshinMacro\GenshinMacro.csproj" />
+    <ProjectReference Include="..\GenshinMacro.csproj" />
   </ItemGroup>
 </Project>

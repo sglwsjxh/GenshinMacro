@@ -11,13 +11,9 @@ build/
 # tmp
 tmp/
 temp/
+*.tmp
+*.bak
 
 # logs
 logs/
 *.log
-
-# dotnet
-*.user
-*.suo
-*.tmp
-*.bak

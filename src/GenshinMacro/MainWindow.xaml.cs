@@ -14,4 +14,12 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.Escape) Close();
     }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        if (DataContext is ViewModels.MainWindowViewModel viewModel)
+            viewModel.Shutdown();
+
+        base.OnClosed(e);
+    }
 }

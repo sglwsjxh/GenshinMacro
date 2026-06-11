@@ -14,7 +14,7 @@ dist/
 # tmp
 tmp/
 temp/
-tests/
+# tests/ - removed for C# rewrite test project (tests/GenshinMacro.Tests/)
 *.tmp
 *.bak
 

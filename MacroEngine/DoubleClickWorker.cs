@@ -11,6 +11,7 @@ public class DoubleClickWorker : MacroWorkerBase
     private const int LeftHoldMs = 100;
     private const int PostRightClickMs = 30;
     private const int InterCycleMs = 80;
+    private const int PyAutoGuiPauseMs = 100;
 
     protected override void Run(IButtonStateProvider buttonState, IInputSimulator inputSim)
     {
@@ -21,7 +22,7 @@ public class DoubleClickWorker : MacroWorkerBase
                 lock (InputLock.SyncRoot)
                 {
                     if (!ExecuteDoubleClickSequence(inputSim))
-                        return; // exit worker on failure
+                        return;
                 }
             }
             try
@@ -42,6 +43,7 @@ public class DoubleClickWorker : MacroWorkerBase
         Thread.Sleep(LeftHoldMs);
         if (!inputSim.RightButtonDown()) return Fail("RightButtonDown");
         if (!inputSim.RightButtonUp()) return Fail("RightButtonUp");
+        Thread.Sleep(PyAutoGuiPauseMs);
         Thread.Sleep(PostRightClickMs);
         if (!inputSim.LeftButtonUp()) return Fail("LeftButtonUp");
         Thread.Sleep(PostRightClickMs);
@@ -51,6 +53,7 @@ public class DoubleClickWorker : MacroWorkerBase
         Thread.Sleep(LeftHoldMs);
         if (!inputSim.RightButtonDown()) return Fail("RightButtonDown");
         if (!inputSim.RightButtonUp()) return Fail("RightButtonUp");
+        Thread.Sleep(PyAutoGuiPauseMs);
         Thread.Sleep(PostRightClickMs);
         if (!inputSim.LeftButtonUp()) return Fail("LeftButtonUp");
         Thread.Sleep(InterCycleMs);
@@ -60,7 +63,7 @@ public class DoubleClickWorker : MacroWorkerBase
 
     private bool Fail(string action)
     {
-        ReportError($"双击宏：{action} 模拟失败，请检查是否以管理员权限运行");
+        ReportError($"双马头宏：{action} 模拟失败，请检查是否以管理员权限运行");
         return false;
     }
 }

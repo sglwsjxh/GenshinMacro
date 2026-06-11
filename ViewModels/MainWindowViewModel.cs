@@ -46,9 +46,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand DismissErrorCommand { get; }
 
     public MainWindowViewModel()
+        : this(new Win32InputSimulator(), new Win32ButtonStateProvider())
     {
-        var inputSim = new Win32InputSimulator();
-        var buttonState = new Win32ButtonStateProvider();
+    }
+
+    public MainWindowViewModel(IInputSimulator inputSim, IButtonStateProvider buttonState)
+    {
         _coordinator = new MacroCoordinator(inputSim, buttonState);
         _coordinator.OnWorkerError += OnWorkerError;
         ToggleCommand = new RelayCommand(Toggle);

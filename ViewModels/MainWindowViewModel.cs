@@ -1,61 +1,42 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GenshinMacro.Input;
 using GenshinMacro.MacroEngine;
+using GenshinMacro.Services;
+using Wpf.Ui.Appearance;
 
 namespace GenshinMacro.ViewModels;
 
-public class MainWindowViewModel : INotifyPropertyChanged
+public partial class MainWindowViewModel : ObservableObject
 {
     private readonly MacroCoordinator _coordinator;
+    private readonly ThemeService _themeService;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(StatusText))]
     private bool _isRunning;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShowError))]
     private string _errorMessage = "";
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public bool IsRunning
-    {
-        get => _isRunning;
-        set
-        {
-            if (_isRunning == value) return;
-            _isRunning = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(StatusText));
-        }
-    }
 
     public string StatusText => IsRunning ? "运行中" : "已停止";
 
-    public string ErrorMessage
-    {
-        get => _errorMessage;
-        set
-        {
-            _errorMessage = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(ShowError));
-        }
-    }
-
     public bool ShowError => !string.IsNullOrEmpty(ErrorMessage);
 
-    public ICommand ToggleCommand { get; }
-    public ICommand DismissErrorCommand { get; }
+    public string ThemeToggleIcon =>
+        _themeService.CurrentTheme == ApplicationTheme.Dark ? "☀" : "🌙";
 
     public MainWindowViewModel()
-        : this(new Win32InputSimulator(), new Win32ButtonStateProvider())
+        : this(new Win32InputSimulator(), new Win32ButtonStateProvider(), new ThemeService())
     {
     }
 
-    public MainWindowViewModel(IInputSimulator inputSim, IButtonStateProvider buttonState)
+    public MainWindowViewModel(IInputSimulator inputSim, IButtonStateProvider buttonState, ThemeService themeService)
     {
+        _themeService = themeService;
         _coordinator = new MacroCoordinator(inputSim, buttonState);
         _coordinator.OnWorkerError += OnWorkerError;
-        ToggleCommand = new RelayCommand(Toggle);
-        DismissErrorCommand = new RelayCommand(() => ErrorMessage = "");
     }
 
     private void OnWorkerError(string message)
@@ -64,7 +45,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IsRunning = false;
     }
 
-    public void Toggle()
+    [RelayCommand]
+    private void Toggle()
     {
         if (IsRunning)
         {
@@ -78,6 +60,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IsRunning = true;
     }
 
+    [RelayCommand]
+    private void DismissError() => ErrorMessage = "";
+
+    [RelayCommand]
+    private void ToggleTheme()
+    {
+        _themeService.ToggleTheme();
+        OnPropertyChanged(nameof(ThemeToggleIcon));
+    }
+
     public void Shutdown()
     {
         _coordinator.OnWorkerError -= OnWorkerError;
@@ -87,7 +79,4 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         IsRunning = false;
     }
-
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

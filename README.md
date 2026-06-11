@@ -1,13 +1,17 @@
-# Genshin Macro - 原神鼠标宏工具
+# Genshin Macro
 
-原神鼠标宏工具 — 统一的 Tkinter GUI 管理两个鼠标宏
+原神鼠标宏工具
 
 ## 功能
 
-- **X（鼠标侧键下键）** — 按住持续旋转视角
-- **X2（鼠标侧键上键）** — 按住重复执行双玛头
+- **X（鼠标侧键下键）** — 按住旋转视角
+- **X2（鼠标侧键上键）** — 按住执行双玛头
 
 ## 安装
+
+从 [Releases](https://github.com/sglwsjxh/GenshinMacro/releases/latest) 下载最新版本的 `GenshinMacro.exe`
+
+## 从源码构建
 
 1. 确保已有 Python 3.10+
 2. 创建并激活虚拟环境：
@@ -23,8 +27,6 @@ pip install -r requirements.txt
 ```bash
 pythonw main.py
 ```
-
-启动后会出现 GUI 窗口，点击「启动」按钮激活两个宏。点击「停止」按钮或关闭窗口即可退出。
 
 ## 注意事项
 

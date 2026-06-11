@@ -29,14 +29,16 @@ jobs:
         run: >
           nuitka --standalone --onefile
           --enable-plugin=tk-inter
-          --windows-disable-console
+          --windows-console-mode=disable
           --windows-icon-from-ico=logo.ico
+          --output-filename=GenshinMacro.exe
           --lto=yes
+          --assume-yes-for-downloads
           --output-dir=dist
           main.py
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/main.exe
+          files: dist/GenshinMacro.exe
           generate_release_notes: true

@@ -1,11 +1,8 @@
-# python
-__pycache__/
-*.pyc
-venv/
-
 # build
-build/
+bin/
+obj/
 dist/
+build/
 
 # ide
 .idea/
@@ -14,15 +11,13 @@ dist/
 # tmp
 tmp/
 temp/
-# tests/ - removed for C# rewrite test project (tests/GenshinMacro.Tests/)
-# dotnet
-bin/
-obj/
-*.user
-*.suo
-*.tmp
-*.bak
 
 # logs
 logs/
 *.log
+
+# dotnet
+*.user
+*.suo
+*.tmp
+*.bak

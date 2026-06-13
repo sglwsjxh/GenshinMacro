@@ -2,109 +2,80 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ════════════════════════════════════════════
-         Colors — Light Theme Defaults
-         Runtime overrides these for dark theme.
+         Accent / Brand — Dark theme only
          ════════════════════════════════════════════ -->
-    <!-- Accent / Brand -->
-    <Color x:Key="AccentColor">#D4940A</Color>
-    <Color x:Key="AccentDarkColor">#B37D08</Color>
-
-    <!-- Backgrounds & Cards -->
-    <Color x:Key="BackgroundColor">#F5F5F5</Color>
-    <Color x:Key="CardColor">#FFFFFF</Color>
-
-    <!-- Text -->
-    <Color x:Key="TextPrimaryColor">#212121</Color>
-    <Color x:Key="TextSecondaryColor">#757575</Color>
-
-    <!-- Borders -->
-    <Color x:Key="BorderColor">#E0E0E0</Color>
-
-    <!-- Status -->
-    <Color x:Key="SuccessColor">#43A047</Color>
-    <Color x:Key="ErrorColor">#E53935</Color>
-
-    <!-- Side Key Cards -->
-    <Color x:Key="SideKey1BgColor">#F0FDF9</Color>
-    <Color x:Key="SideKey1BorderColor">#D7EFE7</Color>
-    <Color x:Key="SideKey2BgColor">#FFF5F5</Color>
-    <Color x:Key="SideKey2BorderColor">#F1D6D6</Color>
-
-    <!-- Error Banner -->
-    <Color x:Key="ErrorBannerBgColor">#FFF3E0</Color>
-    <Color x:Key="ErrorBannerBorderColor">#FF9800</Color>
-    <Color x:Key="ErrorBannerTextColor">#E65100</Color>
-
-    <!-- Status Badges -->
-    <Color x:Key="StatusStoppedBgColor">#F3F4F6</Color>
-    <Color x:Key="StatusRunningBgColor">#EAF7ED</Color>
-
-    <!-- Shadows -->
-    <Color x:Key="ShadowColor">#18000000</Color>
+    <Color x:Key="AccentColor">#F7B769</Color>
+    <Color x:Key="AccentDarkColor">#D4940A</Color>
+    <Color x:Key="SuccessColor">#66BB6A</Color>
+    <Color x:Key="ErrorColor">#EF5350</Color>
 
     <!-- ════════════════════════════════════════════
-         Brushes — Reference Colors via DynamicResource
-         for runtime theme switching.
+         Brushes
          ════════════════════════════════════════════ -->
-    <SolidColorBrush x:Key="AccentBrush" Color="{DynamicResource AccentColor}"/>
-    <SolidColorBrush x:Key="AccentDarkBrush" Color="{DynamicResource AccentDarkColor}"/>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{DynamicResource BackgroundColor}"/>
-    <SolidColorBrush x:Key="CardBrush" Color="{DynamicResource CardColor}"/>
-    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{DynamicResource TextPrimaryColor}"/>
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{DynamicResource TextSecondaryColor}"/>
-    <SolidColorBrush x:Key="BorderBrush" Color="{DynamicResource BorderColor}"/>
-    <SolidColorBrush x:Key="SuccessBrush" Color="{DynamicResource SuccessColor}"/>
-    <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}"/>
-    <SolidColorBrush x:Key="SideKey1BackgroundBrush" Color="{DynamicResource SideKey1BgColor}"/>
-    <SolidColorBrush x:Key="SideKey1BorderBrush" Color="{DynamicResource SideKey1BorderColor}"/>
-    <SolidColorBrush x:Key="SideKey2BackgroundBrush" Color="{DynamicResource SideKey2BgColor}"/>
-    <SolidColorBrush x:Key="SideKey2BorderBrush" Color="{DynamicResource SideKey2BorderColor}"/>
-    <SolidColorBrush x:Key="ErrorBannerBgBrush" Color="{DynamicResource ErrorBannerBgColor}"/>
-    <SolidColorBrush x:Key="ErrorBannerBorderBrush" Color="{DynamicResource ErrorBannerBorderColor}"/>
-    <SolidColorBrush x:Key="ErrorBannerTextBrush" Color="{DynamicResource ErrorBannerTextColor}"/>
-    <SolidColorBrush x:Key="StatusStoppedBgBrush" Color="{DynamicResource StatusStoppedBgColor}"/>
-    <SolidColorBrush x:Key="StatusRunningBgBrush" Color="{DynamicResource StatusRunningBgColor}"/>
-    <SolidColorBrush x:Key="ShadowBrush" Color="{DynamicResource ShadowColor}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentDarkBrush" Color="{StaticResource AccentDarkColor}"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
 
     <!-- ════════════════════════════════════════════
          Typography
          ════════════════════════════════════════════ -->
-    <FontFamily x:Key="FontFamily">Segoe UI</FontFamily>
+    <FontFamily x:Key="FontFamily">Segoe UI Variable, Segoe UI</FontFamily>
 
     <!-- ════════════════════════════════════════════
-         Named Styles (x:Key only — no global defaults)
+         Named Styles
          ════════════════════════════════════════════ -->
 
-    <!-- Primary Action Button -->
-    <Style x:Key="PrimaryButton" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Padding" Value="24,10"/>
+    <!-- Nav button style (used for NavigationView items) -->
+    <Style x:Key="NavButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="Transparent"
-                            CornerRadius="6"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Opacity" Value="0.92"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd" Property="Opacity" Value="0.84"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="Margin" Value="4,2"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ControlElevationBrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Page header text -->
+    <Style x:Key="PageHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,4"/>
+    </Style>
+
+    <Style x:Key="PageDescriptionStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,16"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <!-- Card row label -->
+    <Style x:Key="SettingLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SettingDescriptionStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <!-- Property row grid style -->
+    <Style x:Key="PropertyRowStyle" TargetType="Border">
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
 
 </ResourceDictionary>

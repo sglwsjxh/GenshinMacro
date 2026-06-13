@@ -24,7 +24,7 @@ public partial class App : Application
             }
             catch
             {
-                // User cancelled UAC or elevation failed - exit
+                // User cancelled UAC or elevation failed
             }
             Environment.Exit(0);
             return;
@@ -32,7 +32,13 @@ public partial class App : Application
 
         base.OnStartup(e);
 
+        // Initialize dark theme
         new ThemeService().Initialize();
+
+        // Create main window manually for DI
+        var settingsService = new SettingsService();
+        var mainWindow = new MainWindow(settingsService);
+        mainWindow.Show();
     }
 
     private static bool IsAdministrator()

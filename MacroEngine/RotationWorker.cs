@@ -4,36 +4,32 @@ namespace GenshinMacro.MacroEngine;
 
 public class RotationWorker : MacroWorkerBase
 {
-    // Python: ROTATION_SPEED = 0.02 (20ms poll interval)
-    private const int PollIntervalMs = 20;
+    /// <summary>Pixels per sub-step. Higher = faster rotation.</summary>
+    public int Speed { get; set; } = 96;
 
-    // Python: pydirectinput.move(SCREEN_WIDTH, 0, duration=0.02, relative=True)
-    // We need to replicate the smooth movement. pydirectinput's duration=0.02
-    // means it spreads the movement over 20ms by sending sub-steps.
-    // Replicate this by splitting into ~20 sub-steps of 96px each over 20ms,
-    // totaling SCREEN_WIDTH relative movement to the right.
-    private const int ScreenWidth = 1920;  // Will be configurable later
-    private const int SubSteps = 20;       // Number of micro-moves per tick
-    private const int PixelsPerSubStep = ScreenWidth / SubSteps; // 96 each
-    private const int SubStepDelayMs = PollIntervalMs / SubSteps; // 1ms
+    /// <summary>Poll interval in milliseconds.</summary>
+    public int PollIntervalMs { get; set; } = 20;
 
-    protected override void Run(IButtonStateProvider buttonState, IInputSimulator inputSim)
+    protected override void Run(IButtonStateProvider buttonState, IInputSimulator inputSim, IKeyStateProvider keyState)
     {
+        var subSteps = 20;
+        var subStepDelayMs = PollIntervalMs / subSteps;
+
         while (!_cts.IsCancellationRequested)
         {
-            if (buttonState.IsXButton1Pressed())
+            if (keyState.IsKeyPressed(TriggerKey))
             {
                 lock (InputLock.SyncRoot)
                 {
-                    for (int i = 0; i < SubSteps; i++)
+                    for (int i = 0; i < subSteps; i++)
                     {
                         if (_cts.IsCancellationRequested) return;
-                        if (!inputSim.MoveMouseBy(PixelsPerSubStep, 0))
+                        if (!inputSim.MoveMouseBy(Speed, 0))
                         {
                             ReportError("旋转宏：输入模拟失败，请检查是否以管理员权限运行");
                             return;
                         }
-                        Thread.Sleep(SubStepDelayMs);
+                        Thread.Sleep(subStepDelayMs);
                     }
                 }
             }

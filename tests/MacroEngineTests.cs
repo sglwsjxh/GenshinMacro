@@ -1,6 +1,7 @@
 using System.Threading;
 using GenshinMacro.Input;
 using GenshinMacro.MacroEngine;
+using GenshinMacro.Services;
 using Xunit;
 
 namespace GenshinMacro.Tests;
@@ -13,9 +14,10 @@ public class MacroEngineTests
         var worker = new RotationWorker();
         var btn = new FakeButtonStateProvider();
         var sim = new FakeInputSimulator();
+        var keyState = new FakeKeyStateProvider();
 
         Assert.False(worker.IsRunning);
-        worker.Start(btn, sim);
+        worker.Start(btn, sim, keyState);
         Assert.True(worker.IsRunning);
         Thread.Sleep(60);
         worker.Stop();
@@ -28,9 +30,10 @@ public class MacroEngineTests
         var worker = new DoubleClickWorker();
         var btn = new FakeButtonStateProvider();
         var sim = new FakeInputSimulator();
+        var keyState = new FakeKeyStateProvider();
 
         Assert.False(worker.IsRunning);
-        worker.Start(btn, sim);
+        worker.Start(btn, sim, keyState);
         Assert.True(worker.IsRunning);
         Thread.Sleep(60);
         worker.Stop();
@@ -40,7 +43,14 @@ public class MacroEngineTests
     [Fact]
     public void MacroCoordinator_Should_StartAndStopBoth()
     {
-        var coord = new MacroCoordinator(new FakeInputSimulator(), new FakeButtonStateProvider());
+        var settings = new SettingsService();
+        var keyState = new FakeKeyStateProvider();
+        var coord = new MacroCoordinator(
+            new FakeInputSimulator(),
+            new FakeButtonStateProvider(),
+            keyState,
+            settings);
+
         Assert.False(coord.AnyRunning);
         coord.StartAll();
         Assert.True(coord.AnyRunning);
@@ -54,17 +64,15 @@ public class MacroEngineTests
     {
         var btn = new FakeButtonStateProvider();
         var sim = new FakeInputSimulator();
+        var keyState = new FakeKeyStateProvider();
         var worker = new DoubleClickWorker();
+        worker.TriggerKey = "XButton2";
+        keyState.Overrides["XButton2"] = true;
 
-        btn.X2Pressed = true;
-        worker.Start(btn, sim);
-        Thread.Sleep(150); // enough for one cycle
+        worker.Start(btn, sim, keyState);
+        Thread.Sleep(150);
         worker.Stop();
-        btn.X2Pressed = false;
 
-        // Verify the call order matches the Python sequence:
-        // LeftButtonDown, RightButtonDown, RightButtonUp, LeftButtonUp (cycle 1)
-        // LeftButtonDown, RightButtonDown, RightButtonUp, LeftButtonUp (cycle 2)
         var log = sim.CallLog;
         Assert.Contains(log, c => c == "LeftButtonDown");
         Assert.Contains(log, c => c == "RightButtonDown");
@@ -83,15 +91,14 @@ public class MacroEngineTests
     {
         var btn = new FakeButtonStateProvider();
         var sim = new FakeInputSimulator();
-        sim.ReturnValue = false; // simulate SendInput failure
-        btn.X1Pressed = true;
-
+        sim.ReturnValue = false;
+        var keyState = new FakeKeyStateProvider();
         var worker = new RotationWorker();
-        worker.Start(btn, sim);
+        worker.TriggerKey = "XButton1";
+        keyState.Overrides["XButton1"] = true;
+
+        worker.Start(btn, sim, keyState);
         Thread.Sleep(100);
-        // Worker should have stopped due to SendInput failure
-        // (the Run loop returns when SendInput returns false)
-        // Just verify it doesn't crash
         worker.Stop();
         Assert.False(worker.IsRunning);
     }

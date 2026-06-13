@@ -4,20 +4,18 @@ namespace GenshinMacro.MacroEngine;
 
 public class DoubleClickWorker : MacroWorkerBase
 {
-    // Python polling interval: 0.05 (50ms)
-    private const int PollIntervalMs = 50;
+    public int PollIntervalMs { get; set; } = 50;
 
-    // Timing constants (in milliseconds) matching Python exactly
     private const int LeftHoldMs = 100;
     private const int PostRightClickMs = 30;
     private const int InterCycleMs = 80;
     private const int PyAutoGuiPauseMs = 100;
 
-    protected override void Run(IButtonStateProvider buttonState, IInputSimulator inputSim)
+    protected override void Run(IButtonStateProvider buttonState, IInputSimulator inputSim, IKeyStateProvider keyState)
     {
         while (!_cts.IsCancellationRequested)
         {
-            if (buttonState.IsXButton2Pressed())
+            if (keyState.IsKeyPressed(TriggerKey))
             {
                 lock (InputLock.SyncRoot)
                 {

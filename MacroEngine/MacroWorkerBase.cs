@@ -6,6 +6,12 @@ public abstract class MacroWorkerBase
 {
     public event Action<string>? OnError;
 
+    /// <summary>The configured trigger key name (e.g. "XButton1", "F6").</summary>
+    public string TriggerKey { get; set; } = "XButton1";
+
+    /// <summary>Whether this worker should run.</summary>
+    public bool Enabled { get; set; } = true;
+
     protected readonly CancellationTokenSource _cts = new();
     protected Thread? _thread;
     protected bool _running;
@@ -17,7 +23,19 @@ public abstract class MacroWorkerBase
     {
         if (_running) return;
         _running = true;
-        _thread = new Thread(() => Run(buttonState, inputSim))
+        _thread = new Thread(() => Run(buttonState, inputSim, new Win32KeyStateProvider()))
+        {
+            IsBackground = true,
+            Name = GetType().Name
+        };
+        _thread.Start();
+    }
+
+    public void Start(IButtonStateProvider buttonState, IInputSimulator inputSim, IKeyStateProvider keyState)
+    {
+        if (_running) return;
+        _running = true;
+        _thread = new Thread(() => Run(buttonState, inputSim, keyState))
         {
             IsBackground = true,
             Name = GetType().Name
@@ -40,5 +58,14 @@ public abstract class MacroWorkerBase
         _thread = null;
     }
 
-    protected abstract void Run(IButtonStateProvider buttonState, IInputSimulator inputSim);
+    /// <summary>
+    /// Old override point (no key state). Workers should upgrade to the 3-param overload.
+    /// </summary>
+    protected virtual void Run(IButtonStateProvider buttonState, IInputSimulator inputSim)
+    {
+        Run(buttonState, inputSim, new Win32KeyStateProvider());
+    }
+
+    /// <summary>New override point with key state support.</summary>
+    protected abstract void Run(IButtonStateProvider buttonState, IInputSimulator inputSim, IKeyStateProvider keyState);
 }
